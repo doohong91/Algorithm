@@ -7,5 +7,5 @@ def hansoo(num):
         return len(s1) == 1
 
 n = int(input())
-li = [i for i in range(1,n) if hansoo(i)]
+li = [i for i in range(1,n+1) if hansoo(i)]
 print(len(li))
