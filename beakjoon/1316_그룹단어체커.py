@@ -1,14 +1,13 @@
-t = int(input())
-for i in range(t):
+n = int(input())
+cnt = 0
+for t in range(n):
     s = input()
-    cnt = 0
-    if len(s) == 1:
-        cnt += 1
+    ok = True
     for c in s:
-        s.indexes(c)
-            
-        elif s[i] == s[i-1] and s[i] in s[:i-1]:
+        li = [i for i,v in enumerate(s) if v == c]
+        if list(range(li[0],li[0] + len(li))) != li:
+            ok = False
             break
-    print(s)
-    cnt += 1
+    if ok == True:
+        cnt += 1
 print(cnt)
