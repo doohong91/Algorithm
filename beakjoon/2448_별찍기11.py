@@ -12,4 +12,4 @@ k = int(math.log(n/3,2))
 for i in range(k):
     star(2**i)
 for r in range(n):
-    print(a[r])
+    print(len(a[r]))
