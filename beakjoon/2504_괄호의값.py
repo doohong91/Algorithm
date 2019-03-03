@@ -4,23 +4,15 @@ result = score = 0
 for b in brac:
     print(score,result)
     if b == '(':
-        if not stack:
-            result += score
-            score = 1
         stack.append(')')
     elif b == '[':
-        if not stack:
-            result += score
-            score = 1
         stack.append(']')
     elif stack:
         if stack[-1] == b:
             if b == ')':
-                score *= 2
-                stack.pop()
+                stack[-1] = 2
             else: 
-                score *= 3
-                stack.pop()
+                stack[-1] = 3
         else:
             result = 0
             break
