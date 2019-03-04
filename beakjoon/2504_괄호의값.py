@@ -1,8 +1,7 @@
 brac = [b for b in input()]
 stack = []
-result = score = 0
+result = 0
 for b in brac:
-    print(score,result)
     if b == '(':
         stack.append(')')
     elif b == '[':
@@ -11,14 +10,22 @@ for b in brac:
         if stack[-1] == b:
             if b == ')':
                 stack[-1] = 2
-            else: 
+            else:
                 stack[-1] = 3
-        else:
-            result = 0
-            break
+        elif len(stack) > 1:
+            if stack[-2] == b:
+                if b == ')':
+                    stack[-2] = stack[-1] * 2
+                else:
+                    stack[-2] = stack[-1] * 3
+                stack.pop()
+        if len(stack) > 1:
+            if stack[-1] not in [']',')'] and stack[-2] not in [']',')']:
+                stack[-2] += stack[-1]
+                stack.pop()
     else:
-        result = 0
         break
-if stack:
+result = stack.pop()
+if stack or result == '[' or result == ']':
     result = 0
-print(f'{result}')
+print('{}'.format(result))
