@@ -1,9 +1,11 @@
 def powerset(d, sums):
-    global n_chu, b, found
-    if sums == b:
-        found = 1
+    global n_chu, n_ball
+    if sums in ball:
+        for i in range(n_ball):
+            if ball[i] == sums:
+                found[i] = 1
         return
-    if not found:
+    if sum(found) < n_ball:
         if d == n_chu:
             return
         for i in range(3): 
@@ -21,10 +23,10 @@ n_ball = int(input())
 ball = list(map(int,input().split()))
 cand = [0,1,2]
 used = [0]*n_chu
-for b in ball:
-    found = 0
-    powerset(0,0)
-    if found:
+found = [0]*n_ball
+powerset(0,0)
+for f in found:
+    if f:
         print('Y', end=' ')
     else:
         print('N', end=' ')
