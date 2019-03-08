@@ -1,30 +1,31 @@
 def powerset(d, sums):
     global n_chu, n_ball
-    cand.append(sums)
-    print(sums)
+    if sums < 0:
+        sums *= -1
+        if sums in cand:
+            return
+    if sums not in cand:
+        cand.append(sums)
     if sums in ball:
         for i in range(n_ball):
             if ball[i] == sums:
                 found[i] = 1
         return
+    if d == n_chu:
+        return
     if sum(found) < n_ball:
-        if d == n_chu:
-            return
-        for i in range(3): 
-            if i:
-                if i == 1:
-                    powerset(d+1, sums+chu[d])
-                else:
-                    powerset(d+1, sums-chu[d])
-            else:
-                powerset(d+1, sums)
-          
+        powerset(d + 1, sums + chu[d])
+    if sum(found) < n_ball:
+        powerset(d + 1, sums)
+    if sum(found) < n_ball:
+        powerset(d + 1, sums - chu[d])
+
 n_chu = int(input())
 chu = list(map(int,input().split()))
 n_ball = int(input())
 ball = list(map(int,input().split()))
-cand = []
 found = [0]*n_ball
+cand = []
 powerset(0,0)
 for f in found:
     if f:
