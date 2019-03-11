@@ -2,5 +2,7 @@
 __pycache__/
 # jetbrain auto genereated cache
 .idea/
+# vscode auto genereated cache
+.vscode/
 # stackdumpfile
 *.stackdump
