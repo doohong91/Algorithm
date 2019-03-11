@@ -1,0 +1,6 @@
+# python auto generated cache
+__pycache__/
+# jetbrain auto genereated cache
+.idea/
+# stackdumpfile
+*.stackdump
