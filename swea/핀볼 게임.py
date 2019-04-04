@@ -1,50 +1,70 @@
 def play(y, x, a, b, p):
     global ans, N, row, col
-    if 0 <= y < N and 0 <= x < N:
+    while 0 <= y < N and 0 <= x < N:
         loc = pan[y][x]
+        a1 = a
+        b1 = b
+        # print('({},{}) {} [{},{}] {}'.format(y, x, loc, a, b, p), row, col)
         if loc == -1 or (y == row and x == col):
             if ans < p:
                 ans = p
             return
-        elif loc == 0:
-            if 0 <= y+a < N and 0 <= x+b < N:
-                play(y + a, x + b, a, b, p)
-            else:
-                play(y - a, x - b, -a, -b, p + 1)
         elif loc == 1:
             if a == 1 and b == 0:
-                play(y, x + 1, 0, 1, p+1)
+                a, b = path[3]
             elif a == 0 and b == -1:
-                play(y - 1, x, -1, 0, p + 1)
+                a, b = path[0]
             else:
-                play(y - a, x - b, -a, -b, p + 1)
+                a *= -1
+                b *= -1
+            p += 1
         elif loc == 2:
             if a == -1 and b == 0:
-                play(y, x + 1, 0, 1, p+1)
+                a, b = path[3]
             elif a == 0 and b == -1:
-                play(y + 1, x, 1, 0, p + 1)
+                a, b = path[1]
             else:
-                play(y - a, x - b, -a, -b, p + 1)
+                a *= -1
+                b *= -1
+            p += 1
         elif loc == 3:
             if a == -1 and b == 0:
-                play(y, x - 1, 0, -1, p+1)
+                a, b = path[2]
             elif a == 0 and b == 1:
-                play(y + 1, x, 1, 0, p + 1)
+                a, b = path[1]
             else:
-                play(y - a, x - b, -a, -b, p + 1)
+                a *= -1
+                b *= -1
+            p += 1
         elif loc == 4:
             if a == 1 and b == 0:
-                play(y, x - 1, 0, -1, p+1)
+                a, b = path[2]
             elif a == 0 and b == 1:
-                play(y - 1, x, -1, 0, p + 1)
+                a, b = path[0]
             else:
-                play(y - a, x - b, -a, -b, p + 1)
+                a *= -1
+                b *= -1
+            p += 1
         elif loc == 5:
-            play(y - a, x - b, -a, -b, p + 1)
+            a *= -1
+            b *= -1
+            p += 1
         elif loc > 5:
             for w in wh[loc]:
                 if w != [y, x]:
-                    play(w[0]+a, w[1]+b, a, b, p)
+                    if 0 <= w[0] + a < N and 0 <= w[1] + b < N:
+                        y, x = w
+                    else:
+                        a *= -1
+                        b *= -1
+                        p += 1
+                    break
+        if 0 > y + a or y + a == N or 0 > x + b or x + b == N:
+            a = -a1
+            b = -b1
+            p += 1
+        y += a
+        x += b
 
 
 path = [(-1, 0), (1, 0), (0, -1), (0, 1)]
@@ -65,15 +85,11 @@ for tc in range(1, T+1):
             wh[9].append([i, pan[i].index(9)])
         if 10 in pan[i]:
             wh[10].append([i, pan[i].index(10)])
-    rows = [(N - 1, -1, -1), (N,), (N,), (N,)]
-    cols = [(N,), (N,), (N - 1, -1, -1), (N,)]
     ans = 0
-    for i in range(4):
-        a, b = path[i]
-        v = [[0]*N for _ in range(N)]
-        for row in range(*rows[i]):
-            for col in range(*cols[i]):
-                if pan[row][col] == 0 and 0 <= row+a < N and 0 <= col+b < N and v[row+a][col+b] == 0:
-                    v[row][col] = 1
-                    play(row+a, col+b, a, b, 0)
-    print(f'#{tc} {ans}')
+    for row in range(N):
+        for col in range(N):
+            if pan[row][col] == 0:
+                for a, b in path:
+                    if pan[row][col] == 0:
+                        play(row+a, col+b, a, b, 0)
+    print('#{} {}'.format(tc, ans))
